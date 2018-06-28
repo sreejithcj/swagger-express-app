@@ -1,0 +1,103 @@
+swagger: '2.0'
+info:
+  title: Users API
+  description: >-
+    This API spec will help you develop new solutions.
+  version: 1.0  
+  contact:
+    name: Orchid Apps 
+    url: 'http://www.orchidapps.com/'
+    email: sreeji.cj@gmail.com
+  termsOfService: 'https://www.orchidapps.com/terms/'
+  license:
+    name: TBD
+    url: 'https://www.orchidapps.com'
+basePath: /v1
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: users
+    description: All data about user
+paths:
+  /users:
+    post:
+      x-swagger-router-controller: users
+      operationId: createUser
+      summary: Create a user
+      description: >
+        Create a new user. 
+      tags:
+        - users
+      parameters:
+        - in: body
+          name: payload
+          required: true
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  password:
+                    type: string
+                    format: password
+              - $ref: '#/definitions/user'
+            required:
+              - username
+              - password
+      responses:
+        '201':
+          description: User created.
+          schema:
+            type: object
+            properties:
+              userID:
+                type: string
+                format: uuid
+                description: The user's ID.
+        '400':
+          $ref: '#/responses/400'
+        '401':
+          $ref: '#/responses/401'
+        '403':
+          $ref: '#/responses/403'
+        '404':
+          $ref: '#/responses/404'
+        '500':
+          $ref: '#/responses/500'
+responses:
+    '400':
+      description: Its a 400.
+    '401':
+      description: Its a 401'.
+    '403':
+      description: 'Its a 403.'
+    '404':
+      description: Not found
+    '500':
+      description: Internal error
+definitions:
+    user:
+      allOf:
+      - type: object
+        required:
+          - userID
+          - username
+        properties:
+          userID:
+            type: string
+            format: uuid
+            readOnly: true
+            example: 444e655b-80b7-4574-b73c-e6fd02e16349
+          username:
+            type: string
+            example: sreeji.cj@gmail.com
+          first_name:
+            type: string
+            example: Sreejith
+          last_name:
+            type: string
+            example: C J
+          full_name:
+            type: string
+            example: 'Sreejith C J'
